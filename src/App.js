@@ -2,8 +2,8 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import GlobalStyles from 'style/global';
 import Checkbox from 'components/Checkbox';
-import Input from 'components/Input';
-import Button from 'components/Button';
+import GiftCardForm from 'containers/GiftCardForm';
+import GiftCardList from 'components/GiftCard';
 
 const AppContainer = styled.section`
   padding: 10px;
@@ -22,40 +22,25 @@ const Instruction = styled.p`
   margin: 10px 0;
 `;
 
-const InputHolder = styled.div`
-  display: flex;
-  margin: 10px 0;
-`;
-
-const CodeInput = styled(Input)`
-  margin-left: 10px;
-  width: 100px;
-`;
-
-const ApplyButton = styled(Button)`
-  width: 140px;
-`;
-
 function App() {
   const [hasGiftCard, setHasGiftCard] = useState(false);
-  const [giftCardNum, setGiftCardNum] = useState('');
-  const [giftCardCode, setGiftCardCode] = useState('');
-  const toggleGiftCard = useCallback(() => setHasGiftCard(state => !state), [
-    setHasGiftCard,
-  ]);
-  const updateGiftCardNum = useCallback(e => setGiftCardNum(e.target.value), [
-    setGiftCardNum,
-  ]);
-  const updateGiftCardCode = useCallback(e => setGiftCardCode(e.target.value), [
-    setGiftCardCode,
-  ]);
+  const toggleGiftCardForm = useCallback(
+    () => setHasGiftCard(state => !state),
+    [setHasGiftCard],
+  );
+
+  const [giftCards, setGiftCards] = useState([]);
+  const addGiftCard = useCallback(
+    giftCard => setGiftCards(state => [...state, giftCard]),
+    [setGiftCards],
+  );
   return (
     <AppContainer>
       <GlobalStyles />
       <Title>Gift Cards</Title>
       <Checkbox
         isChecked={hasGiftCard}
-        onChange={toggleGiftCard}
+        onChange={toggleGiftCardForm}
         label="Do you have a gift card?"
       />
       {hasGiftCard && (
@@ -63,20 +48,8 @@ function App() {
           <Instruction>
             Please enter the 19-digit number and code from your gift card below
           </Instruction>
-          <InputHolder>
-            <Input
-              placeholder="0000 1234 5678 9012 345"
-              value={giftCardNum}
-              onChange={updateGiftCardNum}
-            />
-            <CodeInput
-              maxLength="3"
-              placeholder="123"
-              value={giftCardCode}
-              onChange={updateGiftCardCode}
-            />
-          </InputHolder>
-          <ApplyButton label="Apply" />
+          <GiftCardList giftCards={giftCards} />
+          <GiftCardForm onAddGiftCard={addGiftCard} />
         </div>
       )}
     </AppContainer>

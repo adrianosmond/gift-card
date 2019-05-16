@@ -26,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
 
   #root {
     max-width: 100%;
+    padding: 10px;
   }
 
   label {
