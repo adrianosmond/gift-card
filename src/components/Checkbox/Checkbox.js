@@ -5,6 +5,7 @@ import check from 'assets/images/check.svg';
 const Wrapper = styled.label`
   position: relative;
   padding-left: 22px;
+  cursor: pointer;
 
   &:before {
     content: '';
