@@ -5,7 +5,7 @@ export const inputStyles = css`
   width: 100%;
   height: 44px;
   padding: 5px;
-  border: 1px solid ${props => (props.hasError ? 'red' : '#cccccc')};
+  border: 1px solid ${props => (props.hasError ? '#dc143c' : '#cccccc')};
   appearance: none;
   font-size: inherit;
   font-weight: 400;

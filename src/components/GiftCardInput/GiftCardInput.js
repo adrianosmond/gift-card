@@ -7,6 +7,7 @@ const StyledInput = styled(({ hasError, ...props }) => (
   <InputMask {...props} />
 ))`
   ${inputStyles}
+  min-width: 175px;
 `;
 
 const GiftCardInput = props => (
