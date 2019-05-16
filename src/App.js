@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from 'react';
+import GlobalStyles from 'style/global';
 
 function App() {
+  const [hasGiftCard, setHasGiftCard] = useState(false);
+  const toggleGiftCard = useCallback(() => setHasGiftCard(state => !state), [
+    setHasGiftCard,
+  ]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <GlobalStyles />
+      <h3>Gift Cards</h3>
+      <label>
+        <input type="checkbox" value={hasGiftCard} onChange={toggleGiftCard} />
+        Do you have a gift card?
+      </label>
+      {hasGiftCard && (
+        <div>
+          <p>
+            Please enter the 19-digit number and code from your gift card below
+          </p>
+          <div>
+            <input type="text" />
+            <input type="text" />
+          </div>
+          <button>Apply</button>
+        </div>
+      )}
+    </section>
   );
 }
 
