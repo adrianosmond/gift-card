@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useMemo } from 'react';
 import { validateGiftCardNumber, validateControlCode } from 'utils/utils';
 import { fetchStatuses } from 'constants/constants';
 
@@ -20,56 +20,6 @@ export const giftCardActions = {
   GIFT_CARD_SUCCESS: 'GIFT_CARD_SUCCESS',
   GIFT_CARD_FAILURE: 'GIFT_CARD_FAILURE',
 };
-
-// ACTION CREATORS
-export const dispatchSetGiftCardNum = (giftCardNum, dispatch) =>
-  dispatch({
-    type: giftCardActions.SET_GIFT_CARD_NUM,
-    payload: {
-      giftCardNum,
-    },
-  });
-
-export const dispatchSetGiftCardCode = (giftCardCode, dispatch) =>
-  dispatch({
-    type: giftCardActions.SET_GIFT_CARD_CODE,
-    payload: {
-      giftCardCode,
-    },
-  });
-
-export const dispatchClientValidationFailed = (
-  isNumValid,
-  isCodeValid,
-  dispatch,
-) =>
-  dispatch({
-    type: giftCardActions.GIFT_CARD_CLIENT_VALIDATION_FAILED,
-    payload: {
-      isNumValid,
-      isCodeValid,
-    },
-  });
-
-export const dispatchGiftCardFetching = dispatch =>
-  dispatch({
-    type: giftCardActions.GIFT_CARD_FETCHING,
-    payload: {},
-  });
-
-export const dispatchGiftCardSuccess = dispatch =>
-  dispatch({
-    type: giftCardActions.GIFT_CARD_SUCCESS,
-    payload: {},
-  });
-
-export const dispatchGiftCardFailure = (error, dispatch) =>
-  dispatch({
-    type: giftCardActions.GIFT_CARD_FAILURE,
-    payload: {
-      error,
-    },
-  });
 
 export const giftCardReducer = (state, action) => {
   switch (action.type) {
@@ -130,5 +80,66 @@ export const giftCardReducer = (state, action) => {
   }
 };
 
-export const useGiftCardReducer = () =>
-  useReducer(giftCardReducer, INITIAL_STATE);
+export const useGiftCardReducer = () => {
+  const [state, dispatch] = useReducer(giftCardReducer, INITIAL_STATE);
+
+  // Instead of returning the plain dispatch object, return some action creators instead
+  const dispatchSetGiftCardNum = giftCardNum =>
+    dispatch({
+      type: giftCardActions.SET_GIFT_CARD_NUM,
+      payload: {
+        giftCardNum,
+      },
+    });
+
+  const dispatchSetGiftCardCode = giftCardCode =>
+    dispatch({
+      type: giftCardActions.SET_GIFT_CARD_CODE,
+      payload: {
+        giftCardCode,
+      },
+    });
+
+  const dispatchClientValidationFailed = (isNumValid, isCodeValid) =>
+    dispatch({
+      type: giftCardActions.GIFT_CARD_CLIENT_VALIDATION_FAILED,
+      payload: {
+        isNumValid,
+        isCodeValid,
+      },
+    });
+
+  const dispatchGiftCardFetching = () =>
+    dispatch({
+      type: giftCardActions.GIFT_CARD_FETCHING,
+      payload: {},
+    });
+
+  const dispatchGiftCardSuccess = () =>
+    dispatch({
+      type: giftCardActions.GIFT_CARD_SUCCESS,
+      payload: {},
+    });
+
+  const dispatchGiftCardFailure = error =>
+    dispatch({
+      type: giftCardActions.GIFT_CARD_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+  const dispatchers = useMemo(
+    () => ({
+      dispatchSetGiftCardNum,
+      dispatchSetGiftCardCode,
+      dispatchClientValidationFailed,
+      dispatchGiftCardFetching,
+      dispatchGiftCardSuccess,
+      dispatchGiftCardFailure,
+    }),
+    [],
+  );
+
+  return [state, dispatchers];
+};

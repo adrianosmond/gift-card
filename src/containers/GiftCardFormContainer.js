@@ -1,14 +1,6 @@
 import React, { useCallback } from 'react';
 import { checkCode } from 'api/api';
-import {
-  useGiftCardReducer,
-  dispatchSetGiftCardNum,
-  dispatchSetGiftCardCode,
-  dispatchClientValidationFailed,
-  dispatchGiftCardFetching,
-  dispatchGiftCardSuccess,
-  dispatchGiftCardFailure,
-} from 'reducers/giftCardReducer';
+import { useGiftCardReducer } from 'reducers/giftCardReducer';
 import { validateControlCode, validateGiftCardNumber } from 'utils/utils';
 import GiftCardForm from 'components/GiftCardForm';
 
@@ -22,17 +14,24 @@ const GiftCardFormContainer = ({ onAddGiftCard }) => {
       fetchStatus,
       fetchError,
     },
-    dispatch,
+    {
+      dispatchSetGiftCardNum,
+      dispatchSetGiftCardCode,
+      dispatchClientValidationFailed,
+      dispatchGiftCardFetching,
+      dispatchGiftCardSuccess,
+      dispatchGiftCardFailure,
+    },
   ] = useGiftCardReducer();
 
   const updateGiftCardNum = useCallback(
-    e => dispatchSetGiftCardNum(e.target.value, dispatch),
-    [dispatch],
+    e => dispatchSetGiftCardNum(e.target.value),
+    [dispatchSetGiftCardNum],
   );
 
   const updateGiftCardCode = useCallback(
-    e => dispatchSetGiftCardCode(e.target.value, dispatch),
-    [dispatch],
+    e => dispatchSetGiftCardCode(e.target.value),
+    [dispatchSetGiftCardCode],
   );
 
   const onSubmit = useCallback(
@@ -42,37 +41,40 @@ const GiftCardFormContainer = ({ onAddGiftCard }) => {
       const isNumValid = validateGiftCardNumber(num);
       const isCodeValid = validateControlCode(giftCardCode);
       if (!isNumValid || !isCodeValid) {
-        dispatchClientValidationFailed(isNumValid, isCodeValid, dispatch);
+        dispatchClientValidationFailed(isNumValid, isCodeValid);
         return;
       }
-      dispatchGiftCardFetching(dispatch);
+      dispatchGiftCardFetching();
       checkCode(num, giftCardCode)
         .then(response => {
           const card = { number: num, discount: response.data.discount };
           if (onAddGiftCard(card)) {
-            dispatchGiftCardSuccess(dispatch);
+            dispatchGiftCardSuccess();
           } else {
-            dispatchGiftCardFailure(
-              "You've already applied that gift card...",
-              dispatch,
-            );
+            dispatchGiftCardFailure("You've already applied that gift card");
           }
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
             dispatchGiftCardFailure(
               "We can't find that card. Maybe double check it?",
-              dispatch,
             );
           } else {
             dispatchGiftCardFailure(
               'Something went wrong. Please try again...',
-              dispatch,
             );
           }
         });
     },
-    [giftCardNum, giftCardCode, onAddGiftCard, dispatch],
+    [
+      giftCardNum,
+      giftCardCode,
+      dispatchGiftCardFetching,
+      dispatchClientValidationFailed,
+      onAddGiftCard,
+      dispatchGiftCardSuccess,
+      dispatchGiftCardFailure,
+    ],
   );
 
   return (
