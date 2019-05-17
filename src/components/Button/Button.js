@@ -10,6 +10,10 @@ const StyledButton = styled.button`
   color: #ffffff;
   text-transform: uppercase;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #cccccc;
+  }
 `;
 
 const Button = ({ label, ...props }) => (

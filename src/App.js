@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import GlobalStyles from 'style/global';
 import Checkbox from 'components/Checkbox';
-import GiftCardForm from 'containers/GiftCardForm';
+import GiftCardForm from 'containers/GiftCardFormContainer';
 import GiftCardList from 'components/GiftCard';
 
 const AppContainer = styled.section`
@@ -34,6 +34,7 @@ function App() {
     giftCard => setGiftCards(state => [...state, giftCard]),
     [setGiftCards],
   );
+
   return (
     <AppContainer>
       <GlobalStyles />
