@@ -1,11 +1,12 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-export const inputStyles = css`
+const StyledInput = styled.input`
   width: 100%;
   height: 44px;
   padding: 5px;
   border: 1px solid ${props => (props.hasError ? '#dc143c' : '#cccccc')};
+  border-radius: 0;
   appearance: none;
   font-size: inherit;
   font-weight: 400;
@@ -15,10 +16,6 @@ export const inputStyles = css`
   &::placeholder {
     color: #cccccc;
   }
-`;
-
-const StyledInput = styled.input`
-  ${inputStyles}
 `;
 
 const Input = props => <StyledInput {...props} />;

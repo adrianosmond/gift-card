@@ -42,7 +42,7 @@ const GiftCardForm = ({
   updateGiftCardCode,
   onSubmit,
 }) => (
-  <form onSubmit={onSubmit}>
+  <form onSubmit={onSubmit} noValidate>
     <InputHolder>
       <GiftCardInput
         hasError={giftCardNumHasError}

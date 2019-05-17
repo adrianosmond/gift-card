@@ -5,6 +5,7 @@ const StyledButton = styled.button`
   height: 44px;
   padding: 5px;
   border: 0;
+  outline: 0;
   appearance: none;
   background-color: #333333;
   color: #ffffff;

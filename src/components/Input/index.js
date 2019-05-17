@@ -1,4 +1,3 @@
-import Input, { inputStyles } from './Input';
+import Input from './Input';
 
 export default Input;
-export { inputStyles };

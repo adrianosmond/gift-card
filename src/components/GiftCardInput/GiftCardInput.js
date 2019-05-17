@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import InputMask from 'react-input-mask';
-import { inputStyles } from 'components/Input';
+import MaskedInput from 'components/MaskedInput';
 
-const StyledInput = styled(({ hasError, ...props }) => (
-  <InputMask {...props} />
-))`
-  ${inputStyles}
+const StyledInput = styled(MaskedInput)`
   min-width: 175px;
 `;
 
 const GiftCardInput = props => (
-  <StyledInput {...props} mask="9999 9999 9999 9999 999" maskChar="X" />
+  <StyledInput
+    {...props}
+    mask="9999 9999 9999 9999 999"
+    maskChar="X"
+    pattern="[0-9]*"
+  />
 );
 
 export default GiftCardInput;
