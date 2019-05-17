@@ -1,15 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import GlobalStyles from 'style/global';
 import Checkbox from 'components/Checkbox';
 import GiftCardForm from 'containers/GiftCardFormContainer';
 import GiftCardList from 'components/GiftCard';
 
 const AppContainer = styled.section`
+  width: 440px;
+  max-width: 100%;
+  margin: 0 auto;
   padding: 10px;
   background-color: #ffffff;
-  max-width: 100%;
-  width: 440px;
 `;
 
 const Title = styled.h3`
@@ -44,7 +46,12 @@ function App() {
         onChange={toggleGiftCardForm}
         label="Do you have a gift card?"
       />
-      {hasGiftCard && (
+      <CSSTransition
+        in={hasGiftCard}
+        timeout={350}
+        classNames="appear"
+        unmountOnExit
+      >
         <div>
           <Instruction>
             Please enter the 19-digit number and code from your gift card below
@@ -52,7 +59,7 @@ function App() {
           <GiftCardList giftCards={giftCards} />
           <GiftCardForm onAddGiftCard={addGiftCard} />
         </div>
-      )}
+      </CSSTransition>
     </AppContainer>
   );
 }
