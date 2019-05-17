@@ -33,8 +33,14 @@ function App() {
 
   const [giftCards, setGiftCards] = useState([]);
   const addGiftCard = useCallback(
-    giftCard => setGiftCards(state => [...state, giftCard]),
-    [setGiftCards],
+    giftCard => {
+      if (giftCards.filter(g => g.number === giftCard.number).length === 0) {
+        setGiftCards(state => [...state, giftCard]);
+        return true;
+      }
+      return false;
+    },
+    [giftCards, setGiftCards],
   );
 
   return (

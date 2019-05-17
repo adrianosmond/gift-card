@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   fetchError: '',
 };
 
+// ACTIONS
 export const giftCardActions = {
   SET_GIFT_CARD_NUM: 'SET_GIFT_CARD_NUM',
   SET_GIFT_CARD_CODE: 'SET_GIFT_CARD_CODE',
@@ -19,6 +20,56 @@ export const giftCardActions = {
   GIFT_CARD_SUCCESS: 'GIFT_CARD_SUCCESS',
   GIFT_CARD_FAILURE: 'GIFT_CARD_FAILURE',
 };
+
+// ACTION CREATORS
+export const dispatchSetGiftCardNum = (giftCardNum, dispatch) =>
+  dispatch({
+    type: giftCardActions.SET_GIFT_CARD_NUM,
+    payload: {
+      giftCardNum,
+    },
+  });
+
+export const dispatchSetGiftCardCode = (giftCardCode, dispatch) =>
+  dispatch({
+    type: giftCardActions.SET_GIFT_CARD_CODE,
+    payload: {
+      giftCardCode,
+    },
+  });
+
+export const dispatchClientValidationFailed = (
+  isNumValid,
+  isCodeValid,
+  dispatch,
+) =>
+  dispatch({
+    type: giftCardActions.GIFT_CARD_CLIENT_VALIDATION_FAILED,
+    payload: {
+      isNumValid,
+      isCodeValid,
+    },
+  });
+
+export const dispatchGiftCardFetching = dispatch =>
+  dispatch({
+    type: giftCardActions.GIFT_CARD_FETCHING,
+    payload: {},
+  });
+
+export const dispatchGiftCardSuccess = dispatch =>
+  dispatch({
+    type: giftCardActions.GIFT_CARD_SUCCESS,
+    payload: {},
+  });
+
+export const dispatchGiftCardFailure = (error, dispatch) =>
+  dispatch({
+    type: giftCardActions.GIFT_CARD_FAILURE,
+    payload: {
+      error,
+    },
+  });
 
 export const giftCardReducer = (state, action) => {
   switch (action.type) {
