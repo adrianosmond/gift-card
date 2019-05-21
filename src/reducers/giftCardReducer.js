@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   giftCardCodeHasError: false,
   giftCards: [],
   fetchStatus: fetchStatuses.IDLE,
-  fetchError: '',
+  giftCardError: '',
 };
 
 // ACTIONS
@@ -66,7 +66,7 @@ export const giftCardReducer = (state, action) => {
       return {
         ...state,
         fetchStatus: fetchStatuses.FETCHING,
-        fetchError: '',
+        giftCardError: '',
       };
     }
 
@@ -80,7 +80,7 @@ export const giftCardReducer = (state, action) => {
         return {
           ...state,
           fetchStatus: fetchStatuses.SUCCESS,
-          fetchError: "You've already applied that gift card",
+          giftCardError: "You've already applied that gift card",
         };
       }
 
@@ -96,7 +96,7 @@ export const giftCardReducer = (state, action) => {
       return {
         ...state,
         fetchStatus: fetchStatuses.FAILURE,
-        fetchError: action.payload.error,
+        giftCardError: action.payload.error,
       };
     }
     default:

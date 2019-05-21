@@ -37,7 +37,7 @@ const GiftCardForm = ({
   giftCardCode,
   giftCardCodeHasError,
   fetchStatus,
-  fetchError,
+  giftCardError,
   updateGiftCardNum,
   updateGiftCardCode,
   onSubmit,
@@ -64,7 +64,7 @@ const GiftCardForm = ({
         }
         disabled={fetchStatus === fetchStatuses.FETCHING}
       />
-      {fetchError && <Error>{fetchError}</Error>}
+      {giftCardError && <Error>{giftCardError}</Error>}
     </ButtonAndError>
   </form>
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import Checkbox from 'components/Checkbox';
-import GiftCardFormContainer from 'containers/GiftCardFormContainer';
+import GiftCardForm from 'components/GiftCardForm';
 import GiftCardList from 'components/GiftCard';
 
 const Section = styled.section`
@@ -23,7 +23,20 @@ const Instruction = styled.p`
   margin: 10px 0;
 `;
 
-function GiftCardSection({ hasGiftCard, toggleGiftCardForm, giftCards }) {
+function GiftCardSection({
+  hasGiftCard,
+  toggleGiftCardForm,
+  giftCards,
+  giftCardNum,
+  giftCardNumHasError,
+  giftCardCode,
+  giftCardCodeHasError,
+  fetchStatus,
+  giftCardError,
+  updateGiftCardNum,
+  updateGiftCardCode,
+  onSubmit,
+}) {
   return (
     <Section>
       <Title>Gift Cards</Title>
@@ -43,7 +56,17 @@ function GiftCardSection({ hasGiftCard, toggleGiftCardForm, giftCards }) {
             Please enter the 19-digit number and code from your gift card below
           </Instruction>
           <GiftCardList giftCards={giftCards} />
-          <GiftCardFormContainer />
+          <GiftCardForm
+            giftCardNum={giftCardNum}
+            giftCardNumHasError={giftCardNumHasError}
+            giftCardCode={giftCardCode}
+            giftCardCodeHasError={giftCardCodeHasError}
+            fetchStatus={fetchStatus}
+            giftCardError={giftCardError}
+            updateGiftCardNum={updateGiftCardNum}
+            updateGiftCardCode={updateGiftCardCode}
+            onSubmit={onSubmit}
+          />
         </div>
       </CSSTransition>
     </Section>
