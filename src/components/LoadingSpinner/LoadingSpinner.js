@@ -47,14 +47,3 @@ const LoadingSpinner = () => (
 );
 
 export default LoadingSpinner;
-
-/*
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-*/
