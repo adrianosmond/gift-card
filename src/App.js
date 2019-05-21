@@ -1,12 +1,12 @@
 import React from 'react';
 import GlobalStyles from 'style/global';
-import AppContainer from 'containers/AppContainer';
+import GiftCardContainer from 'containers/GiftCardContainer';
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <AppContainer />
+      <GiftCardContainer />
     </>
   );
 }

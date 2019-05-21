@@ -4,7 +4,7 @@ import { useGiftCardReducer } from 'reducers/giftCardReducer';
 import { validateControlCode, validateGiftCardNumber } from 'utils/utils';
 import { checkCode } from 'api/api';
 
-function AppContainer() {
+function GiftCardContainer() {
   const [
     {
       hasGiftCard,
@@ -93,4 +93,4 @@ function AppContainer() {
   );
 }
 
-export default AppContainer;
+export default GiftCardContainer;
