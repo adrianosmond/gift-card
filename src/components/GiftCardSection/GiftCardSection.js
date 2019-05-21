@@ -23,12 +23,7 @@ const Instruction = styled.p`
   margin: 10px 0;
 `;
 
-function GiftCardSection({
-  hasGiftCard,
-  toggleGiftCardForm,
-  giftCards,
-  addGiftCard,
-}) {
+function GiftCardSection({ hasGiftCard, toggleGiftCardForm, giftCards }) {
   return (
     <Section>
       <Title>Gift Cards</Title>
@@ -48,7 +43,7 @@ function GiftCardSection({
             Please enter the 19-digit number and code from your gift card below
           </Instruction>
           <GiftCardList giftCards={giftCards} />
-          <GiftCardFormContainer onAddGiftCard={addGiftCard} />
+          <GiftCardFormContainer />
         </div>
       </CSSTransition>
     </Section>

@@ -1,31 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import GiftCardSection from 'components/GiftCardSection';
+import { useGiftCardContext } from 'contexts/giftCardContext';
 
 function AppContainer() {
-  const [hasGiftCard, setHasGiftCard] = useState(false);
-  const toggleGiftCardForm = useCallback(
-    () => setHasGiftCard(state => !state),
-    [setHasGiftCard],
-  );
-
-  const [giftCards, setGiftCards] = useState([]);
-  const addGiftCard = useCallback(
-    giftCard => {
-      if (giftCards.filter(g => g.number === giftCard.number).length === 0) {
-        setGiftCards(state => [...state, giftCard]);
-        return true;
-      }
-      return false;
-    },
-    [giftCards, setGiftCards],
-  );
+  const [
+    { hasGiftCard, giftCards },
+    { dispatchToggleHasGiftCard },
+  ] = useGiftCardContext();
 
   return (
     <GiftCardSection
       hasGiftCard={hasGiftCard}
-      toggleGiftCardForm={toggleGiftCardForm}
+      toggleGiftCardForm={dispatchToggleHasGiftCard}
       giftCards={giftCards}
-      addGiftCard={addGiftCard}
     />
   );
 }

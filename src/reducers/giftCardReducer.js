@@ -3,16 +3,19 @@ import { validateGiftCardNumber, validateControlCode } from 'utils/utils';
 import { fetchStatuses } from 'constants/constants';
 
 const INITIAL_STATE = {
+  hasGiftCard: false,
   giftCardNum: '',
   giftCardNumHasError: false,
   giftCardCode: '',
   giftCardCodeHasError: false,
+  giftCards: [],
   fetchStatus: fetchStatuses.IDLE,
   fetchError: '',
 };
 
 // ACTIONS
 export const giftCardActions = {
+  TOGGLE_HAS_GIFT_CARD: 'TOGGLE_HAS_GIFT_CARD',
   SET_GIFT_CARD_NUM: 'SET_GIFT_CARD_NUM',
   SET_GIFT_CARD_CODE: 'SET_GIFT_CARD_CODE',
   GIFT_CARD_CLIENT_VALIDATION_FAILED: 'GIFT_CARD_CLIENT_VALIDATION_FAILED',
@@ -23,6 +26,13 @@ export const giftCardActions = {
 
 export const giftCardReducer = (state, action) => {
   switch (action.type) {
+    case giftCardActions.TOGGLE_HAS_GIFT_CARD: {
+      return {
+        ...state,
+        hasGiftCard: !state.hasGiftCard,
+      };
+    }
+
     case giftCardActions.SET_GIFT_CARD_NUM: {
       const { giftCardNum } = action.payload;
       return {
@@ -61,8 +71,22 @@ export const giftCardReducer = (state, action) => {
     }
 
     case giftCardActions.GIFT_CARD_SUCCESS: {
+      const { giftCard } = action.payload;
+      const cardExists = state.giftCards.some(
+        g => g.number === giftCard.number,
+      );
+
+      if (cardExists) {
+        return {
+          ...state,
+          fetchStatus: fetchStatuses.SUCCESS,
+          fetchError: "You've already applied that gift card",
+        };
+      }
+
       return {
         ...state,
+        giftCards: [...state.giftCards, giftCard],
         fetchStatus: fetchStatuses.SUCCESS,
         giftCardNum: '',
         giftCardCode: '',
@@ -84,6 +108,12 @@ export const useGiftCardReducer = () => {
   const [state, dispatch] = useReducer(giftCardReducer, INITIAL_STATE);
 
   // Instead of returning the plain dispatch object, return some action creators instead
+  const dispatchToggleHasGiftCard = () =>
+    dispatch({
+      type: giftCardActions.TOGGLE_HAS_GIFT_CARD,
+      payload: {},
+    });
+
   const dispatchSetGiftCardNum = giftCardNum =>
     dispatch({
       type: giftCardActions.SET_GIFT_CARD_NUM,
@@ -115,10 +145,12 @@ export const useGiftCardReducer = () => {
       payload: {},
     });
 
-  const dispatchGiftCardSuccess = () =>
+  const dispatchGiftCardSuccess = giftCard =>
     dispatch({
       type: giftCardActions.GIFT_CARD_SUCCESS,
-      payload: {},
+      payload: {
+        giftCard,
+      },
     });
 
   const dispatchGiftCardFailure = error =>
@@ -131,6 +163,7 @@ export const useGiftCardReducer = () => {
 
   const dispatchers = useMemo(
     () => ({
+      dispatchToggleHasGiftCard,
       dispatchSetGiftCardNum,
       dispatchSetGiftCardCode,
       dispatchClientValidationFailed,

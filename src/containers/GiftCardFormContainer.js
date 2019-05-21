@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { checkCode } from 'api/api';
-import { useGiftCardReducer } from 'reducers/giftCardReducer';
+import { useGiftCardContext } from 'contexts/giftCardContext';
 import { validateControlCode, validateGiftCardNumber } from 'utils/utils';
 import GiftCardForm from 'components/GiftCardForm';
 
-const GiftCardFormContainer = ({ onAddGiftCard }) => {
+const GiftCardFormContainer = () => {
   const [
     {
       giftCardNum,
@@ -22,7 +22,7 @@ const GiftCardFormContainer = ({ onAddGiftCard }) => {
       dispatchGiftCardSuccess,
       dispatchGiftCardFailure,
     },
-  ] = useGiftCardReducer();
+  ] = useGiftCardContext();
 
   const updateGiftCardNum = useCallback(
     e => dispatchSetGiftCardNum(e.target.value),
@@ -48,11 +48,7 @@ const GiftCardFormContainer = ({ onAddGiftCard }) => {
       checkCode(num, giftCardCode)
         .then(response => {
           const card = { number: num, discount: response.data.discount };
-          if (onAddGiftCard(card)) {
-            dispatchGiftCardSuccess();
-          } else {
-            dispatchGiftCardFailure("You've already applied that gift card");
-          }
+          dispatchGiftCardSuccess(card);
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
@@ -71,7 +67,6 @@ const GiftCardFormContainer = ({ onAddGiftCard }) => {
       giftCardCode,
       dispatchGiftCardFetching,
       dispatchClientValidationFailed,
-      onAddGiftCard,
       dispatchGiftCardSuccess,
       dispatchGiftCardFailure,
     ],
