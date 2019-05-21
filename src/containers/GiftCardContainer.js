@@ -47,6 +47,13 @@ function GiftCardContainer() {
         dispatchClientValidationFailed(isNumValid, isCodeValid);
         return;
       }
+      // wait til we have both a valid num and code before checking if the
+      // card has been added so as not to show two types of error at the same time
+      const cardExists = giftCards.some(g => g.number === num);
+      if (cardExists) {
+        dispatchClientValidationFailed(true, true, cardExists);
+        return;
+      }
       dispatchGiftCardFetching();
       checkCode(num, giftCardCode)
         .then(response => {
@@ -68,6 +75,7 @@ function GiftCardContainer() {
     [
       giftCardNum,
       giftCardCode,
+      giftCards,
       dispatchGiftCardFetching,
       dispatchClientValidationFailed,
       dispatchGiftCardSuccess,

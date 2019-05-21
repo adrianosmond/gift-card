@@ -59,6 +59,8 @@ export const giftCardReducer = (state, action) => {
         ...state,
         giftCardNumHasError: !action.payload.isNumValid,
         giftCardCodeHasError: !action.payload.isCodeValid,
+        giftCardError:
+          action.payload.cardExists && "You've already applied that gift card",
       };
     }
 
@@ -72,18 +74,6 @@ export const giftCardReducer = (state, action) => {
 
     case giftCardActions.GIFT_CARD_SUCCESS: {
       const { giftCard } = action.payload;
-      const cardExists = state.giftCards.some(
-        g => g.number === giftCard.number,
-      );
-
-      if (cardExists) {
-        return {
-          ...state,
-          fetchStatus: fetchStatuses.SUCCESS,
-          giftCardError: "You've already applied that gift card",
-        };
-      }
-
       return {
         ...state,
         giftCards: [...state.giftCards, giftCard],
@@ -130,12 +120,17 @@ export const useGiftCardReducer = () => {
       },
     });
 
-  const dispatchClientValidationFailed = (isNumValid, isCodeValid) =>
+  const dispatchClientValidationFailed = (
+    isNumValid,
+    isCodeValid,
+    cardExists,
+  ) =>
     dispatch({
       type: giftCardActions.GIFT_CARD_CLIENT_VALIDATION_FAILED,
       payload: {
         isNumValid,
         isCodeValid,
+        cardExists,
       },
     });
 
